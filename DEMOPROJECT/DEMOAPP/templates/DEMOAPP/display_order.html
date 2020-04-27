@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1> order details</h1>
+    {% if obj %}
+        {% for user in obj %}
+            <div class="card mb-3">
+                <p class="lead">
+                    {{user.items_in_order}}
+                </p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No Orders placed yet</p>
+    {% endif %}
+{% endblock %}
