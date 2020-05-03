@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import HttpResponse
-from fooditems.models import FoodItem
+from fooditems.models import FoodItem,Rating
 from fooditems.forms import FoodItemsForm,PriceForm,AcceptableForm
 
 def food(request):
@@ -41,10 +41,6 @@ def update_price(request,id):
     return render(request,'index.html',{'form':form})
 
 def update_acceptable(request,id):
-    # food = get_object_or_404(FoodItem , pk = id)
-    # food.serviceable = request.POST['service']
-    # food.save()
-    # return HttpResponse("updated successfully")
     food = FoodItem.objects.get(pk=id)
     if request.method == "POST":
         form = AcceptableForm(request.POST , instance = food)
@@ -58,10 +54,33 @@ def update_acceptable(request,id):
         form = AcceptableForm(instance = food)
     return render(request,'index.html',{'form':form})
 
-# def rating(request,id,points):
-#     food = get_object_or_404(FoodItem , pk = id)
-#     r = food.rating
-#     food.num_customers +=1
-#     food.rating = (r+points) / food.num_customers
-#     food.save()
-#     return HttpResponse("Updated rating")
+def rating(request,id):
+    food = FoodItem.Objects.get(pk = id)
+    return render(request,'show.html',{'food':food})
+
+def reviews(request , id):
+    review = Rating.objects.filter(food_id = id)
+    return render(request,'reviews.html',{'review':review})
+
+# def input_reviews(request , f_id , u_id):
+#     if (Rating.objects.filter(food_id = f_id , user_id = u_id).exists()):
+#         r = Rating.objects.filter(food_id = f_id , user_id = u_id)
+#         r[reviews] = request.POST['reviews']
+#         r.save()
+#     else:
+#         reviews = request.POST['reviews']
+#         r = Rating(user_id = u_id , food_id = f_id, reviews = reviews)
+#         r.save()
+#     return render(request,'reviews.html',{'review':r})
+
+# def input_ratings(request , f_id , u_id):
+#     if (Rating.objects.filter(food_id = f_id , user_id = u_id).exists()):
+#         r = Rating.objects.filter(food_id = f_id , user_id = u_id)
+#         r[rating] = request.POST['rating']
+#         r.save()
+#     else:
+#         rating = request.POST['rating']
+#         r = Rating(user_id = u_id , food_id = f_id, rating = rating)
+#         r.save()
+#     food = FoodItem.Objects.get(pk = f_id)
+#     return render(request,'show.html',{'food':food})

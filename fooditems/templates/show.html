@@ -16,8 +16,17 @@
       {{ f.food_name }}<br/>
       {{ f.price }}<br/>
       {{ f.veg }}<br/>
+      {{ f.item_type }}<br/>
       {{ f.cuisine_type }}<br/>
       {{ f.serviceable }}<br/>
+      {{ f.avg_rating }}<br/>
+      <a href="/reviews/{{ f.food_id }}">Reviews</a><br/><br/>
+      <form method ="post" action="">
+        {% csrf_token %}
+          <input type="text" name="rating" value = "your rating"/>
+          <input type="submit" name="Submit"/>
+      </form>
+      <br/>
       <br/>
             <a href="/update_price/{{ f.food_id }}"><span class="glyphicon glyphicon-pencil" >update price</span></a> <br/>
             <a href="/update_acceptable/{{ f.food_id }}"><span class="glyphicon glyphicon-pencil" >update Acceptable</span></a> <br/>

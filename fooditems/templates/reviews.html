@@ -10,9 +10,15 @@
 <body>
 <h1>reviews Page</h1>
 
+<form method ="post" action="">
+  {% csrf_token %}
+    <input type="text" name="reviews" value = "your reviews"/>
+    <input type="submit" name="Submit"/>
+</form>
+
 {% for r in review %}
 
-      {{ r.user_id }} <br/> {{ r.review }}<br/><br/>
+      {{ r.user_id }} <br/> {{ r.reviews }}<br/><br/>
 
 {% endfor %}
 
