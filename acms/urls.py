@@ -26,6 +26,7 @@ urlpatterns = [
     path('update_acceptable/<int:id>', views.update_acceptable),
     path('update_price/<int:id>', views.update_price),
     path('delete/<int:id>', views.delete),
+    path('reviews/<int:id>', views.reviews),
     path('',views.display),
 ]
 
