@@ -35,6 +35,5 @@ class FoodItem(models.Model):
 class Rating(models.Model):
 	food_id = models.ForeignKey(FoodItem,on_delete = models.CASCADE)
 	user_id = models.CharField(max_length=100)
-	#models.ForeignKey(restaurants,on_delete = models.CASCADE)
 	rating = models.IntegerField(default = 0, null = True)
 	reviews = models.TextField(max_length = 400 , null = True)

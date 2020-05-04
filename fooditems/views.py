@@ -54,10 +54,6 @@ def update_acceptable(request,id):
         form = AcceptableForm(instance = food)
     return render(request,'index.html',{'form':form})
 
-def rating(request,id):
-    food = FoodItem.Objects.get(pk = id)
-    return render(request,'show.html',{'food':food})
-
 def reviews(request , id):
     review = Rating.objects.filter(food_id = id)
     return render(request,'reviews.html',{'review':review})
