@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<ul>
+    {% for restaurant in restaurants %}
+    <a href="{% url 'update_restaurant' restaurant.id %}">
+        <li> {{ restaurant.name }}</li>
+    </a>
+    {% endfor %}
+</ul>
+<a href="{% url 'create_restaurants' %}">New Restaurant</a>
+
+</body>
+</html>
