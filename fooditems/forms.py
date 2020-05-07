@@ -1,5 +1,5 @@
 from django import forms
-from fooditems.models import FoodItem
+from fooditems.models import FoodItem, Restaurant
 
 class FoodItemsForm(forms.ModelForm):
     class Meta:
@@ -15,3 +15,8 @@ class AcceptableForm(forms.ModelForm):
     class Meta:
         model = FoodItem
         fields = ['food_id','serviceable']
+
+class RestaurantForm(forms.ModelForm):
+    class Meta:
+        model = Restaurant
+        fields = ['id', 'name', 'address', 'cuisines', 'contact_no', 'avg_cost_for_a_person', 'is_delivering_now',]

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+{%  extends 'base.html' %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FoodItems</title>
+
+</head>
+<body>
+
+<h1 class="text-center">Catalogue Page</h1>
+</br>
+
+<div class="row row-cols-1 row-cols-md-4" style="padding : 10px;">
+      {% for f in food %}
+
+      <div class="col mb-4" style="padding : 10px;">
+      <div class="card text-white bg-secondary mb-3" style="width: 18rem;">
+        <image src="{{ f.image.url }}" class="card-img-top" alt="{{ f.food_name }}" width="250px" heigth="250px" />
+        <div class="card-body" >
+          <h2 class="card-title">{{ f.food_name }}</h2>
+          <table class="card-table table table-sm text-white table-borderless">
+    <tbody>
+      <tr>
+        <td>&#8377; {{ f.price }}</td>
+        <td>{{ f.veg }}</td>
+      </tr>
+      <tr>
+        <td>{{ f.cuisine_type }}</td>
+        <td>{{ f.item_type }}</td>
+      </tr>
+      {% if f.serviceable == "not available" %}
+      <tr>
+        <td colspan="2">{{ f.serviceable }}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <td>{{ f.avg_rating }}</td>
+        <td><a class="btn btn-info" href="/reviews_fooditem/{{ f.food_id }}" role="button">Reviews</a></td>
+      </tr>
+
+<!-- for Restaurant display -->
+
+      <tr>
+        <td><a href="/update_price/{{ f.food_id }}" class="btn btn-info">update price</a></td>
+        <td><a href="/update_acceptable/{{ f.food_id }}" class="btn btn-info">update Acceptable</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><a href="/delete_fooditem/{{ f.food_id }}" class="btn btn-info">Delete</a></td>
+      </tr>
+    </tbody>
+  </table>
+    </div>
+    </div>
+  </div>
+            {% endfor %}
+  </div>
+
+
+<a href="/add_fooditem" class="btn btn-primary">Add FoodItems</a>
+
+</body>
+</html>
+
+{% endblock %}

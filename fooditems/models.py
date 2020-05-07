@@ -1,12 +1,23 @@
 from django.db import models
 
-# Create your models here.
+class Restaurant(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50)
+    address = models.CharField(max_length=500)
+    cuisines = models.CharField(max_length=100)
+    contact_no = models.IntegerField()
+    avg_cost_for_a_person = models.IntegerField()
+    is_delivering_now = models.BooleanField(default=True)
+    #rating = models.DecimalField(max_digits=2, decimal_places=1,null=True)
+
+    def __str__(self):
+        return self.name
+
 
 class FoodItem(models.Model):
 	food_id = models.AutoField(primary_key=True)
 	food_name = models.CharField(max_length=100)
-	restaurant_id = models.CharField(max_length=100)
-	#models.ForeignKey(restaurants,on_delete = models.CASCADE)
+	restaurant_id = models.IntegerField() #models.ForeignKey(Restaurant,on_delete = models.CASCADE)
 	price = models.IntegerField()
 	v_choice = [('veg' , 'veg'),('non-veg' , 'non-veg')]
 	item_choice = [('Starters', 'Starters'), ('Main Courses', 'Main Course'), ('Desserts', 'Desserts'), ('Beverages', 'Beverages')]
@@ -15,7 +26,6 @@ class FoodItem(models.Model):
 	serviceable = models.CharField(max_length=30, choices=s_choice, default='service available')
 	veg = models.CharField(max_length=100 , choices=v_choice, default='veg')
 	cuisine_type = models.CharField(max_length=100)
-	#num_customers = models.IntegerField(default=0)
 	image = models.ImageField(upload_to='gallery/',blank=True,null=True)
 
 	def no_of_ratings(self):
