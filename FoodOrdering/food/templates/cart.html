@@ -1,0 +1,54 @@
+{% extends "base_delivery.html" %}
+{% block content %}
+
+<div class="container">
+
+	<div class="jumbotron text-center" style="margin-bottom:0;background-color:#232F3E;color:#ffffff;">
+            <h1>AmazEats</h1>
+            <p style="color:#ffa000;">The Food You Like !!</p>
+        </div>
+<table id="cart" class="table table-hover table-condensed">
+    				<thead>
+						<tr>
+							<th style="width:50%">Product</th>
+							<th style="width:10%">Price</th>
+							<th style="width:8%">Quantity</th>
+							<th style="width:22%" class="text-center">Subtotal</th>
+							<th style="width:10%"></th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for i in cart_items %}
+						<tr>
+							<td data-th="Product">
+								<div class="row">
+									<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+									<div class="col-sm-10">
+										<h4 class="ml-5">{{ i.food_name }}</h4>
+									</div>
+								</div>
+							</td>
+							<td data-th="Price">Rs. {{ i.price }}</td>
+							<td data-th="Quantity">
+								<input type="number" class="form-control text-center" value="{{ i.quantity }}" >
+							</td>
+							<td data-th="Subtotal" class="text-center"></td>
+							<td class="actions" data-th="">
+								<!--<button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>-->
+								<a href="/food/removeFromCart/{{ i.food_id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+					<tfoot>
+
+						<tr>
+							<td><a href="/food/user_orders/" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+							<td colspan="2" class="hidden-xs"></td>
+							<td class="hidden-xs text-center"><strong>Total Rs. </strong></td>
+							<td><a href="/food/checkOut" class="btn btn-success btn-block">Checkout</a></td>
+						</tr>
+					</tfoot>
+				</table>
+</div>
+{% endblock content %}
