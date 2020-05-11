@@ -38,12 +38,12 @@ class FoodItem(models.Model):
 		for r in ratings:
 			sum+=r.rating
 		if (len(ratings)>0):
-			return sum/len(ratings)
+			return round(sum/len(ratings),1)
 		return 0
 
 
 class Rating(models.Model):
 	food_id = models.ForeignKey(FoodItem,on_delete = models.CASCADE)
-	user_id = models.CharField(max_length=100)
+	user_id = models.CharField(max_length=100 , default =1)
 	rating = models.IntegerField(default = 0, null = True)
 	reviews = models.TextField(max_length = 400 , null = True)

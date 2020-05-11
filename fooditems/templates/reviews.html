@@ -10,9 +10,9 @@
 <body>
 <h1>reviews Page</h1>
 
-<form method ="post" action="">
+<form method ="post" action="input_reviews/{{ review.0.food_id.food_id }}">
   {% csrf_token %}
-    <input type="text" name="reviews" value = "your reviews"/>
+    <input type="text" name="reviews" placeholder = "your reviews"/>
     <input type="submit" name="Submit"/>
 </form>
 
