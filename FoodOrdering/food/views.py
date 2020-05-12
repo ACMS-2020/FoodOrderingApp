@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 from .models import *
+from FoodItems.models import *
+
 from datetime import datetime
 current_user = "Susmitha"
 items_per_page = 4

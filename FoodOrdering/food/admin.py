@@ -14,7 +14,6 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ['order_id','restaurant_id','user_id','amount','status','order_date','delivery_boy_id','delivered_date']
     inlines = [OrderInline]
 
-admin.site.register(FoodItem)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(Cart)
 

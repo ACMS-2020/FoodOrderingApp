@@ -2,9 +2,9 @@ from django.db import models
 from datetime import datetime
 from django.shortcuts import reverse
 
-# Create your models here.
+# Orders Databases
 
-class FoodItem(models.Model):
+'''class FoodItem(models.Model):
     food_id = models.AutoField(primary_key=True)
     food_name = models.CharField(max_length=100)
     restaurant_id = models.CharField(max_length=100)
@@ -19,7 +19,7 @@ class FoodItem(models.Model):
     cuisine_type = models.CharField(max_length=100)
 
     #def get_absolute_url(self):
-    #    return reverse("hello",kwargs={})
+    #    return reverse("hello",kwargs={})'''
 
 class Cart(models.Model):
     user_id = models.CharField(max_length=100)
@@ -34,10 +34,6 @@ class Cart(models.Model):
             restaurant_id=self.res_id, user_id=self.user_id,order_date=datetime.now()
         )
         obj.save()
-    #place_order()
-    #new Order
-    #Cartitems -> OrderedItems
-    #CartItems = 0
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
@@ -113,7 +109,6 @@ class Order(models.Model):
         else:
             print("Invalid operation")
             return False
-
 
 class OrderedItems(models.Model):
     items= models.ForeignKey(Order,on_delete=models.CASCADE,related_name="order_set")
