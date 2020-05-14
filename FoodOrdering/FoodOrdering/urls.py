@@ -18,11 +18,14 @@ from django.urls import path
 from django.conf.urls import include,url
 from django.conf.urls.static import static
 from django.conf import settings
+from FoodItems.admin import adminFoodItems
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin_fooditems/', adminFoodItems.urls),
     path('food/',include('food.urls')),
-    path('fooditems/',include('FoodItems.urls'))
+    path('fooditems/',include('FoodItems.urls')),
+    path('',include('accounts.urls')),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
 

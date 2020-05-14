@@ -16,18 +16,33 @@
     height: 15vw;
     object-fit: cover;
 }
+.card:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
 /* .col-10 {
 height: 90vh;
 overflow-y: scroll;
 } */
+.button{
+  background-color:#FF9900;
+  border: 0px #FF9900;
+}
+.card{
+  background-color: #232F3E;
+}
+.navbar{
+  background-color: #232F3E;
+  color: white;
+}
 
 </style>
 
 <!-- for customer display -->
 
-<nav class="navbar navbar-dark bg-dark justify-content-between">
+<nav class="navbar justify-content-between">
   <a class="navbar-brand">Restaurants</a>
-  <form class="form-inline" action='/search' method = 'get'>
+  <a href="/logout"> logout</a>
+  <form class="form-inline" action='/fooditems/res_search' method = 'get'>
     <input class="form-control mr-sm-2" type="search" name='q'  placeholder="Search" aria-label="Search">
     <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
   </form>
@@ -40,10 +55,9 @@ overflow-y: scroll;
 <div class="row row-cols-1 row-cols-md-4"  >
 {% for r in restaurants %}
 
+<a href="/fooditems/display_fooditems/{{ r.id }}" class="btn btn-fix text-left">
       <div class="col mb-4" >
-          <a href="/fooditems/display_fooditems/{{ r.id }}" class="btn btn-fix text-left">
-      <div class="card text-white bg-secondary mb-3" style="width: 17rem;padding-left: 30px; padding-right: 30px;">
-        <!-- <image src="{{ f.image.url }}" class="card-img-top" alt="{{ f.food_name }}" /> -->
+      <div class="card text-white bg-secondary mb-3" style="width: 242px;">
         <div class="card-body" >
           <h2 class="card-title">{{ r.name }}</h2>
           <table class="card-table table table-sm text-white table-borderless">
@@ -65,6 +79,7 @@ overflow-y: scroll;
     </div>
     </div>
   </div>
+</a>
 
 {% endfor %}
 
@@ -77,53 +92,3 @@ overflow-y: scroll;
 </html>
 
 {% endblock %}
-
-<!--
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FoodItems</title>
-
-</head>
-<body>
-
-<h1 class="text-center">Restaurants Page</h1>
-</br>
-
-<div class="row row-cols-1 row-cols-md-4" style="padding : 10px;">
-      {% for r in restaurants %}
-
-      <div class="col mb-4">
-        <a href="/display_fooditems/{{ r.id }}" class="btn btn-fix text-left">
-      <div class="card text-white bg-secondary mb-3" style="width: 18rem;">
-        <image src="{{ f.image.url }}" class="card-img-top" alt="{{ f.food_name }}" width="250px" heigth="250px" />
-        <div class="card-body" >
-          <h2 class="card-title">{{ r.name }}</h2>
-          <table class="card-table table table-sm text-white table-borderless">
-    <tbody>
-      <tr>
-        <td>{{ r.address }}</td>
-        <td>{{ r.cuisines }}</td>
-      </tr>
-      <tr>
-        <td>{{ r.contact_no }}</td>
-        <td>{{ r.avg_cost_for_a_person }}</td>
-      </tr>
-      <tr>
-        <td>{{ r.is_delivering_now }}</td>
-      </tr>
-
-    </tbody>
-  </table>
-
-
-    </div>
-    </div>
-  </div>
-            {% endfor %}
-  </div>
-
-</body>
-</html>
-
- -->

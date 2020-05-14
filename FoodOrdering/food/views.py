@@ -23,7 +23,7 @@ def addToCart(request,item_id):
         cartItem = Cart.objects.create(user_id=current_user, res_id=items.restaurant_id, food_id=item_id,food_name=items.food_name,price=items.price)
         cartItem.save()
 
-    return HttpResponse("Added")
+    return redirect("/food/cart")
 
 def removeFromCart(request,item_id):
     cartTrail = Cart.objects.get(food_id=item_id)
@@ -169,5 +169,3 @@ def order_delivered(request,order_id):
 def cart(request):
     obj =  Cart.objects.filter(user_id=current_user)
     return render(request,"cart.html",{'cart_items':obj})
-
-
