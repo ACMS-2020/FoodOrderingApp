@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FoodItems</title>
+
+</head>
+<body>
+<h1>reviews Page</h1>
+
+<form method ="post" action="input_reviews/{{ review.0.food_id.food_id }}">
+  {% csrf_token %}
+    <input type="text" name="reviews" placeholder = "your reviews"/>
+    <input type="submit" name="Submit"/>
+</form>
+
+{% for r in review %}
+
+      {{ r.user_id }} <br/> {{ r.reviews }}<br/><br/>
+
+{% endfor %}
+
+</body>
+</html>

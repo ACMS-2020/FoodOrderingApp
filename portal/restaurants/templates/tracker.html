@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="#" id="tracker">{% csrf_token %}
+<h2>Track your orders</h2>
+<p>Enter your order id and email to track your orders</p>
+orderId : <input type="text" id="orderId" name="orderId">
+email : <input type="text" id="email" name="email">
+<button type="submit">Track Order</button>
+<h2>Order status</h2>
+</form>
+<script>
+    $('#tracker').submit(function(event) {
+    $('#items').empty();
+    var formData = {
+    'orderId': $('input[name=orderId]').val(),
+    'email': $('input[name=email]').val(),
+    };
+    $.ajax({
+    type:'POST',
+    url: 'tracker'
+    date: formData'
+    encode: true
+   })
+   .done(function(data){
+   console.log(data)
+   updates =JSON.parse(data);
+   if (updates.length >0 & updates !={}){
+   for (i=0;i<updates.length;i++) {
+   Let text = updates[i]['text'];
+   Let time = updates[i]['time'];
+   mystr = <li class="list-group-item d-flex justify-content-between align-iems-center">
+   ${text}
+   <span class="badge badge-primary badge-pill">${time}</span>
+   </li>
+   $('#iems').append(mystr);
+   }
+   }else{
+   mystr = <li class="list-group-item d-flex justify-content-between align-iems-center">
+   Sorry</li>
+   $('#iems').append(mystr);
+   }
+
+
+
+});
+event.preventDefault();
+
+</script>
+</body>
+</html>
