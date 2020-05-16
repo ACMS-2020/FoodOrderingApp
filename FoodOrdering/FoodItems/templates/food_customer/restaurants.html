@@ -19,10 +19,6 @@
 .card:hover {
   box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 }
-/* .col-10 {
-height: 90vh;
-overflow-y: scroll;
-} */
 .btn{
   background-color:#FF9900;
   border: 0px #FF9900;
@@ -38,19 +34,6 @@ overflow-y: scroll;
 </style>
 
 <!-- for customer display -->
-
-
-
-<!-- <nav class="navbar justify-content-between">
-  <button class="navbar-toggler-icon" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-  </button>
-  <a class="navbar-brand">Restaurants</a>
-  <a href="/logout"> logout</a>
-  <form class="form-inline" action='/fooditems/res_search' method = 'get'>
-    <input class="form-control mr-sm-2" type="search" name='q'  placeholder="Search" aria-label="Search">
-    <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-  </form>
-</nav> -->
 
 <nav class="navbar navbar-expand-lg ">
   <a class="navbar-brand" href="#">AmazEats</a>
@@ -84,24 +67,21 @@ overflow-y: scroll;
 
 <div class="row row-cols-1 row-cols-md-4"  >
 {% for r in restaurants %}
-
-<a href="/fooditems/display_fooditems/{{ r.id }}" class="btn btn-fix text-left">
+<a href="/fooditems/display_fooditems/{{ r.username }}" class="btn btn-fix text-left">
       <div class="col mb-4" >
       <div class="card text-white bg-secondary mb-3" style="width: 242px;">
         <div class="card-body" >
-          <h2 class="card-title">{{ r.name }}</h2>
+          <h2 class="card-title">{{ r.username }} </h2>
+          <h2>{{r.Location}}</h2>
           <table class="card-table table table-sm text-white table-borderless">
     <tbody>
       <tr>
-        <td>{{ r.address }}</td>
-        <td>{{ r.cuisines }}</td>
+        <td>{{ r.Location }}</td>
+        <td>{{ r.cuisine }}</td>
       </tr>
       <tr>
-        <td>{{ r.contact_no }}</td>
-        <td>{{ r.avg_cost_for_a_person }}</td>
-      </tr>
-      <tr>
-        <td>{{ r.is_delivering_now }}</td>
+        <td>{{ r.contactNumber }}</td>
+        <td>{{ r.priceperhead }}</td>
       </tr>
     </tbody>
   </table>
