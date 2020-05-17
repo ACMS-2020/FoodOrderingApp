@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+#from FoodItems.models import *
 # Register your models here.
 
 admin.site.site_header = "Order Database"
@@ -16,4 +17,5 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Order,OrderAdmin)
 admin.site.register(Cart)
+#admin.site.register(FoodItem)
 

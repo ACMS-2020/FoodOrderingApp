@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 from .models import *
+from django.views.decorators.csrf import csrf_exempt
 from FoodItems.models import *
 
 from datetime import datetime
@@ -33,7 +34,7 @@ def removeFromCart(request,item_id):
 def checkOut(request):
     cart = Cart.objects.filter(user_id=current_user)
     if(not cart.exists()):
-        return HttpResponse('No items in cart')
+        return render(request,"order_placed.html")
     order = Order.objects.create(user_id=current_user,restaurant_id=cart[0].res_id)
     for i in cart:
         order.order_set.create(item_id=i.food_id,quantity=i.quantity,item_name=i.food_name)
@@ -41,7 +42,7 @@ def checkOut(request):
         order.amount += i.quantity*item[0].price
     order.save()
     cart.delete()
-    return HttpResponse("Order placed")
+    return render(request,"order_placed.html")
 
 def res_pending_order(request, res_id):
     obj = Order.objects.filter(restaurant_id=res_id,status="Placed")
@@ -169,5 +170,29 @@ def order_delivered(request,order_id):
 def cart(request):
     obj =  Cart.objects.filter(user_id=current_user)
     return render(request,"cart.html",{'cart_items':obj})
+
+def cancel_order(request,order_id):
+    obj = Order.objects.filter(order_id=order_id)
+    obj.delete()
+    return redirect('/food/user_orders/')
+
+def order_history(request):
+    obj = Order.objects.filter(user_id=current_user,status="Delivered")
+    paginator = Paginator(obj, items_per_page)
+    page = request.GET.get('page')
+    if page == None:
+        page = 1
+    ind = int(page) - 1
+    obj = obj[ind * items_per_page:ind * items_per_page + items_per_page]
+    values = paginator.get_page(page)
+    return render(request, 'order_history.html', {'obj': obj, 'values': values})
+
+def alter_cart_items(request):
+    if request.method == "POST":
+        food_id = request.POST.get('food_id')
+        food_item = Cart.objects.get(food_id=food_id)
+        food_item.quantity = request.POST.get('quantity')
+        food_id.save()
+    return HttpResponse("ok")
 
 

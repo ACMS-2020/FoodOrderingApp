@@ -24,26 +24,72 @@
                         </div>
                         <hr class="d-sm-none">
                     </div>
-                    <div class="col-sm-8">
-
+                    <div class="col-sm-8">`
                         <nav class="nav nav-pills nav-fill p-0 ml-5">
-                            <a class="nav-item nav-link active" href="/food/user_orders">Current Orders</a>
-                            <a class="nav-item nav-link" href="/food/order_history">Order History</a>
+                            <a class="nav-item nav-link" href="/food/user_orders">Current Orders</a>
+                            <a class="nav-item nav-link active" href="/food/order_history">Order History</a>
                         </nav>
-
-                       <!-- <h3> Current Orders </h3>-->
-                        {%if obj%}
+                        {% if obj %}
+                        <!--<h3> Order History </h3>-->
                         {% for item in obj %}
-                        {% if item.status != "Delivered" %}
                             <div class="card m-5 text-white mx-auto" style="width: 800px;background-color:#232F3E"  >
                                 <div class="card-header">
                                     <span><h3> Order Number : {{ item.order_id }} </h3></span>
-                                    <span><a href="#" style="background-color:#FF9900" class="btn btn-info float-right ml-2">Track Order</a></span>
-                                  <!--  {% if item.status == "Delivered" %}
-                                         <span><a href="#" style="background-color:#FF9900" class="btn btn-info float-right ml-2">Rate</a></span>
+                                    {% if item.status == "Delivered" %}
+                                         <span><button type="button" style="background-color:#FF9900" class="btn btn-info float-right ml-2" data-toggle="modal" data-target="#rating" >Rate</button></span>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="rating" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Rate Your Order !!</h5>
+                                                        <h6><small>{{ item.order_date }}</small></h6>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        ...
+                                                        <div class="card text-center">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title"><small>rate your meal from</small></h5>
+                                                                <p class="card-text"><h5>Kou dhaba</h5></p>
+                                                                <!--rating stuff  li may be -->
+                                                                <h4>Rate the restaurant</h4>
+                                                                <div class="container">
+                                                                    <span id="rateMe2"  class="empty-stars"></span>
+                                                                </div>
+                                                                <!-- rating.js file -->
+                                                                <script>
+                                                                    // Rating Initialization
+$(document).ready(function() {
+  $('#rateMe2').mdbRate();
+});
+
+                                                                </script>
+                                                                <h4> rate delivery</h4>
+                                                                <div class="container">
+                                                                <span id="rateMe3"  class="rating-faces"></span>
+                                                                </div>
+                                                                <!-- rating.js file -->
+                                                                <script>
+
+                                                                    // Rating Initialization
+$(document).ready(function() {
+  $('#rateMe3').mdbRate();
+});
+                                                                </script>
+                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                     {% else %}
                                         <span class="float-right">{{item.status}}</span>
-                                    {% endif %}-->
+                                    {% endif %}
                                 </div>
                                 <div class="card-body" style="background-color:#ffffff;color:#131A22;">
                                 <!--<h5 class="card-title">Order Number : {{ item.order_id }}</h5>-->
@@ -58,12 +104,11 @@
                                         {% endfor %}
                                     </ul>
                                     <span class="card-text">Ordered On : {{ item.order_date }} </span>
-                                    {% if item.status == "Placed" %}
-                                         <span><a href="/food/cancelorder/{{item.order_id}}" style="background-color:#FF9900" class="btn btn-info float-right">Cancel Order</a></span>
+                                    {% if item.status == "Delivered" %}
+                                    <span><a href="/food/reorder/{{ item.order_id }}" style="background-color:#FF9900" class="btn btn-info float-right">Reorder</a></span>
                                     {% endif %}
                                 </div>
                             </div>
-                        {% endif %}
                         {% endfor %}
                         <div class="pagination justify-content-center mb-5">
                             {% if values.has_previous %}
@@ -85,10 +130,10 @@
                     </div>
                         {% else %}
 
-                        <center>
-		<img src="https://cdn.dribbble.com/users/357929/screenshots/2276751/orderup-emptystate-sadbag.png" style="height:300;" class="mt-4 align-bottom rounded mx-auto d-block" alt="order processing">
-		<h5 class="card-title">You have placed no orders</h5>
-                            <p><small>Fill your bag with a delicious order</small></p>
+                             <center>
+		<img src="https://cdn.dribbble.com/users/1168645/screenshots/3152485/no-orders_2x.png" style="height:300;" class="mt-4 align-bottom rounded mx-auto d-block" alt="order processing">
+		<h5 class="card-title">You have no orders yet</h5>
+                            <p><small>Explore the delicious menu </small></p>
 	</center>
 
                         {% endif %}

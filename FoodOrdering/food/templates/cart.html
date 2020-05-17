@@ -1,5 +1,6 @@
 {% extends "base_delivery.html" %}
 {% block content %}
+{% csrf_token %}
 
 <div class="container">
 
@@ -7,6 +8,7 @@
             <h1>AmazEats</h1>
             <p style="color:#ffa000;">The Food You Like !!</p>
         </div>
+	{% if cart_items %}
 <table id="cart" class="table table-hover table-condensed">
     				<thead>
 						<tr>
@@ -18,6 +20,7 @@
 						</tr>
 					</thead>
 					<tbody>
+
 					{% for i in cart_items %}
 						<tr>
 							<td data-th="Product">
@@ -28,11 +31,11 @@
 									</div>
 								</div>
 							</td>
-							<td data-th="Price">Rs. {{ i.price }}</td>
+							<td data-th="Price" val="{{i.price}}" >Rs. {{ i.price }}</td>
 							<td data-th="Quantity">
-								<input type="number" class="form-control text-center" value="{{ i.quantity }}" >
+								<input type="number" class="form-control text-center" value="{{ i.quantity }}" id="{{ i.food_id }}" onchange="quantityChange(event,{{ i.price }})">
 							</td>
-							<td data-th="Subtotal" class="text-center"></td>
+							<td data-th="Subtotal" class="text-center" id="element{{ i.food_id }}">{{i.price}}</td>
 							<td class="actions" data-th="">
 								<!--<button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>-->
 								<a href="/food/removeFromCart/{{ i.food_id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
@@ -45,10 +48,39 @@
 						<tr>
 							<td><a href="/food/user_orders/" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
 							<td colspan="2" class="hidden-xs"></td>
-							<td class="hidden-xs text-center"><strong>Total Rs. </strong></td>
+							<td class="hidden-xs text-center" value="{{i.price}}*{{i.quantity}}" id="subt"><strong>Total Rs. </strong></td>
 							<td><a href="/food/checkOut" class="btn btn-success btn-block">Checkout</a></td>
 						</tr>
 					</tfoot>
 				</table>
-</div>
+			{% else %}
+
+	<center>
+		<img src="https://candleroses.com/images/Cart-empty.gif" class="w-20 m-4 align-bottom rounded mx-auto d-block" alt="order processing">
+		<h5 class="card-title">Your cart is empty</h5>
+		<a href="/food/user_orders/" class="btn btn-warning mt-3"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+	</center>
+			{% endif %}
+		</div>
+
+
+<script>
+	function quantityChange(event,price){
+		var cur = event.currentTarget;
+		document.getElementById("element"+cur.getAttribute('id')).innerHTML = cur.value*price;
+
+		var food_id = cur.getAttribute('id');
+		var quantity = cur.value;
+
+		$.ajax({
+                    type: "POST",
+                    url: "/food/alter_cart/",
+                    data: {food_id : food_id},
+                    success: function () {
+                        alert("quantity changed");
+                    }
+                });
+
+	}
+</script>
 {% endblock content %}

@@ -3,8 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from .models import *
 from .forms import FoodItemsForm,PriceForm,AcceptableForm,RestaurantForm
 from .filters import ProductFilter
+from django.contrib.auth.decorators import login_required
 
-# @login_required
+#@login_required
 def add_fooditems(request):
     form = FoodItemsForm()
     if request.method == "POST":
@@ -14,17 +15,18 @@ def add_fooditems(request):
                 instance = form.save(commit = False)
                 #instance.restaurant = request.user
                 instance.save()
-                return redirect('/fooditems')
+                return redirect('/fooditems/restaurant_fooditems')
             except:
                 pass
     return render(request,'food_restaurant/index.html',{'form':form})
 
+#@login_required
 def display_fooditems(request,id):
-    #res = Restaurant.objects.get_object_or_404(id = id)
+    res = Restaurant.objects.get(pk = id)
     food = FoodItem.objects.filter(restaurant_id = id)
     pFilter = ProductFilter(request.POST , queryset = food)
     food = pFilter.qs
-    return render(request,'food_customer/foodItems.html',{'food':food , 'pFilter' : pFilter })
+    return render(request,'food_customer/foodItems.html',{'food':food , 'pFilter' : pFilter, 'res':res })
 
 def display(request):
     food = FoodItem.objects.all()
@@ -32,16 +34,29 @@ def display(request):
     food = pFilter.qs
     return render(request,'food_restaurant/show.html',{'food':food , 'pFilter' : pFilter})
 
-def search(request):
+def search(request,id):
     query_string = ''
     if 'q' in request.GET:
         query_string = request.GET['q']
-        food = FoodItem.objects.filter(food_name__icontains = query_string)
+        food = FoodItem.objects.filter(restaurant_id = id ,food_name__icontains = query_string)
     else:
-        food = FoodItem.objects.all()
+        food = FoodItem.objects.filter(restaurant_id = id)
     pFilter = ProductFilter(request.POST , queryset = food)
     food = pFilter.qs
     return render(request,'food_customer/foodItems.html',{'food':food , 'pFilter' : pFilter })
+
+def res_search(request):
+    query_string = ''
+    if 'q' in request.GET:
+        query_string = request.GET['q']
+        res = Restaurant.objects.filter(name__icontains = query_string)
+        print(res)
+    else:
+        res = FoodItem.objects.all()
+    pFilter = ProductFilter(request.POST , queryset = res)
+    res = pFilter.qs
+    return render(request,'restaurant_templates/restaurants.html',{'restaurants': res , 'pFilter' : pFilter })
+
 
 
 # @login_required
@@ -51,7 +66,7 @@ def delete_fooditems(request,id):
     except FoodItem.DoesNotExist:
         raise Http404("Food item not found ")
     food.delete()
-    return redirect("/fooditems")
+    return redirect("/fooditems/restaurant_fooditems")
 
 # @login_required
 def update_price(request,id):
@@ -62,7 +77,7 @@ def update_price(request,id):
         if form.is_valid():
             try:
                 form.save()
-                return redirect('/fooditems')
+                return redirect('/fooditems/restaurant_fooditems')
             except:
                 pass
     return render(request,'food_restaurant/index.html',{'form':form})
@@ -76,7 +91,7 @@ def update_acceptable(request,id):
         if form.is_valid():
             try:
                 form.save()
-                return redirect('/fooditems')
+                return redirect('/fooditems/restaurant_fooditems')
             except:
                 pass
     else:
@@ -127,7 +142,7 @@ def create_restaurant(request):
 
     if form.is_valid():
         form.save()
-        return redirect('list_restaurants')
+        return redirect('/fooditems')
     return render(request, 'restaurant_templates/restaurants-form.html', {'form': form})
 
 # @login_required
@@ -137,7 +152,7 @@ def update_restaurant(request, id):
 
     if form.is_valid():
         form.save()
-        return redirect('list_restaurants')
+        return redirect('/fooditems')
     return render(request, 'restaurant_templates/restaurants-form.html', {'form': form, 'restaurant': restaurant})
 
 # @login_required
@@ -146,5 +161,5 @@ def delete_restaurant(request, id):
 
     if request.method == 'POST':
         restaurant.delete()
-        return redirect('list_restaurants')
+        return redirect('/fooditems')
     return render(request, 'restaurant_templates/rest-delete-confirm.html', {'restaurant': restaurant})

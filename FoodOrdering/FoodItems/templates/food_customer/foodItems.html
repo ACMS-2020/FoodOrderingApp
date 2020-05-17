@@ -20,20 +20,41 @@
 height: 90vh;
 overflow-y: scroll;
 }
+.btn{
+  background-color:#FF9900;
+  border: 0px #FF9900;
+}
+.card{
+  background-color: #232F3E;
+}
+.navbar{
+  background-color: #232F3E;
+  color: white;
+}
 
 </style>
 
 <!-- for customer display -->
 
-<nav class="navbar navbar-dark bg-dark justify-content-between">
+<nav class="navbar justify-content-between">
   <a class="navbar-brand">Catalogue</a>
-  <form class="form-inline" action='/search' method = 'get'>
+  <form class="form-inline" action='/fooditems/display_fooditems/search/{{ res.id }}' method = 'get'>
     <input class="form-control mr-sm-2" type="search" name='q'  placeholder="Search" aria-label="Search">
-    <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn my-2 my-sm-0" type="submit">Search</button>
   </form>
 </nav>
+<div class="jumbotron jumbotron-fluid" style = "background-color : #232F3E;color:#ffffff;padding-bottom : 10px;" >
+  <div class="container">
+    <div class='row'>
+      <div class="col-3">
+    <image src="/media/puli.png" class="card-img-left" alt="{{ res.name }}" style="max-width: 100%; height :inherit;border: 10px solid #ddd;; "/></div>
+    <div class="col-9" style = "margin-top:100px;">
+    <h1 class="display-4 ">{{ res.name }}</h1>
+    <p class="lead">{{ res.address }}</p></div>
+  </div>
+  </div>
+</div>
 </br>
-<div class="jumbotron jumbotron-fluid">
 <div class = "row">
 
 <div class = "col-10" style="padding-left: 40px;">
@@ -42,7 +63,7 @@ overflow-y: scroll;
 {% for f in food %}
 
       <div class="col mb-4" >
-      <div class="card text-white bg-secondary mb-3" style="width: 17rem;">
+      <div class="card text-white mb-3" style="width: 17rem;">
         <image src="{{ f.image.url }}" class="card-img-top" alt="{{ f.food_name }}" />
         <div class="card-body" >
           <h2 class="card-title">{{ f.food_name }}</h2>
@@ -68,7 +89,7 @@ overflow-y: scroll;
 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalScrollable{{f.food_name}}">
   reviews
 </button></td>
-          <!-- <a class="btn btn-info" href="/reviews_fooditem/{{ f.food_id }}" role="button">Reviews</a></td> -->
+
       </tr>
     </tbody>
   </table>
@@ -77,6 +98,8 @@ overflow-y: scroll;
       <input type="text" name="rating" placeholder = "your rating" size=12/>
       <input type="submit" class="btn btn-info btn-sm" name="Submit"/>
   </form>
+
+  <a class="btn btn-info" href="/food/addToCart/{{ f.food_id }}" role="button">addToCart</a></td>
 
     </div>
     </div>
@@ -93,7 +116,7 @@ overflow-y: scroll;
         </div>
         <div class="modal-body">
 
-          <form method ='post' action='/fooditems/input_reviews/{{ review.0.food_id.food_id }}'>
+          <form method ='post' action='/fooditems/input_reviews/{{ f.food_id }}'>
             {% csrf_token %}
               <input type='text' name='reviews' placeholder = 'your reviews'/>
               <input type='submit' class="btn btn-primary btn-sm" name='Submit'/>
@@ -102,7 +125,7 @@ overflow-y: scroll;
           {{ f.food_name }}
           <p>
           {% for r in f.rating_set.all %}
-            {{ r.user_id }} : {{ r.reviews }}<br/>
+            {{ user.username }} : {{ r.reviews }}<br/>
           {% endfor %}
         </p>
         </div>
@@ -131,9 +154,10 @@ overflow-y: scroll;
   </div>
 </div>
 </div>
-</div>
+
 
 </body>
 </html>
 
 {% endblock %}
+
